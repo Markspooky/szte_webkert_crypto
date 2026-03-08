@@ -1,0 +1,37 @@
+.home-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto; /* Középre igazítja az egész táblázatot */
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+}
+
+.symbol {
+  color: gray;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+/* Színek a növekedéshez/csökkenéshez */
+.positive {
+  color: #4caf50; /* Material Zöld */
+  font-weight: 500;
+}
+
+.negative {
+  color: #f44336; /* Material Piros */
+  font-weight: 500;
+}
+
+/* Hogy az ikon és a százalék egyvonalban legyen */
+mat-icon {
+  vertical-align: middle;
+  margin-right: 4px;
+}
