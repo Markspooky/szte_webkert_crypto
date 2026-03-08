@@ -1,7 +1,9 @@
 .home-container {
   padding: 20px;
   max-width: 1000px;
-  margin: 0 auto; /* Középre igazítja az egész táblázatot */
+  margin: 0 auto;
+  box-sizing: border-box; /* Megakadályozza a kilógást */
+  width: 100%;
 }
 
 h2 {
@@ -9,8 +11,20 @@ h2 {
   color: #333;
 }
 
+/* Ez a rész tartja kordában a táblázatot */
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
 table {
   width: 100%;
+  min-width: 600px;
 }
 
 .symbol {
@@ -19,18 +33,16 @@ table {
   margin-left: 5px;
 }
 
-/* Színek a növekedéshez/csökkenéshez */
 .positive {
-  color: #4caf50; /* Material Zöld */
+  color: #4caf50;
   font-weight: 500;
 }
 
 .negative {
-  color: #f44336; /* Material Piros */
+  color: #f44336;
   font-weight: 500;
 }
 
-/* Hogy az ikon és a százalék egyvonalban legyen */
 mat-icon {
   vertical-align: middle;
   margin-right: 4px;

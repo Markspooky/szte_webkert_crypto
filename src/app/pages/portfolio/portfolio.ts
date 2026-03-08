@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { RouterModule } from '@angular/router';
+import { Auth, authState } from '@angular/fire/auth';
 export interface MyAsset {
   name: string;
   symbol: string;
@@ -21,12 +22,18 @@ const MOCK_PORTFOLIO: MyAsset[] = [
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatTableModule, MatIconModule, MatButtonModule, RouterModule],
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.scss'
 })
 export class Portfolio {
+  // Lekérjük a Firebase hitelesítést
+  private auth = inject(Auth);
+  // Létrehozunk egy folyamatosan frissülő változót a felhasználó állapotáról
+  user$ = authState(this.auth);
+
   displayedColumns: string[] = ['asset', 'amount', 'value', 'actions'];
   dataSource = MOCK_PORTFOLIO;
-  totalBalance = 24645.08; // Statikus összesített érték
+  totalBalance = 24645.08;
 }
+

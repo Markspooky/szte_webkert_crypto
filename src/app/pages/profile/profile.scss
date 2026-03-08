@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   padding: 20px;
+  box-sizing: border-box; /* Megakadályozza a kilógást */
+  width: 100%;
 }
 
 .profile-card {
@@ -41,7 +43,20 @@
   }
 }
 
-.currency-select {
-  width: 100%;
-  margin-top: 10px;
+/* A zárt lakat állapota (bejelentkezés előtt) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  margin-top: 20px;
+
+  mat-icon {
+    font-size: 60px;
+    height: 60px;
+    width: 60px;
+    margin-bottom: 20px;
+  }
 }

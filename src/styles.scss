@@ -37,3 +37,105 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+/* --- SÖTÉT MÓD GLOBÁLIS STÍLUSOK --- */
+body.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+
+  /* Az egész oldalsó menü és a fő tartalom háttere */
+  .mat-drawer-container, .sidenav-container {
+    background-color: #121212;
+  }
+
+  .mat-drawer {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  /* Felső sáv (Toolbar) */
+  .mat-toolbar {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  /* Kártyák és bennük lévő szövegek */
+  .mat-mdc-card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+  
+  .mat-mdc-card-subtitle, 
+  .mat-mdc-card-title {
+    color: #e0e0e0;
+  }
+
+  /* Táblázatok */
+  .mat-mdc-table {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .mat-mdc-header-cell {
+    color: #b0bec5;
+    border-bottom-color: #333;
+  }
+
+  .mat-mdc-cell {
+    color: #e0e0e0;
+    border-bottom-color: #333;
+  }
+
+  /* Feliratok és címsorok */
+  h2, h3, p, span {
+    color: #e0e0e0;
+  }
+
+  /* Szürke szimbólumok a táblázatban */
+  .symbol {
+    color: #888;
+  }
+
+  /* Lakat ikon üres állapotnál */
+  .empty-state mat-icon {
+    color: #90caf9;
+  }
+
+  /* Bemeneti mezők keretei (Select, Input) */
+  .mat-mdc-form-field-outline {
+    color: #555;
+  }
+  .mat-mdc-list-item,
+  .mat-mdc-list-item-title,
+  .mat-mdc-list-item-icon,
+  .mdc-list-item__primary-text {
+    color: #ffffff !important;
+  }
+  a.mat-mdc-list-item {
+    color: #ffffff !important;
+  }
+
+  .positive,
+  td.positive,
+  .positive mat-icon {
+    color: #81c784 !important; /* Világoszöld */
+  }
+
+  .negative,
+  td.negative,
+  .negative mat-icon {
+    color: #e57373 !important; /* Világospiros */
+  }
+
+  /* --- Gombok javítása (Portfólió 'Új tranzakció' és egyebek) --- */
+  /* Megvédjük az elsődleges gombokat a globális szürkítéstől */
+  .mat-mdc-raised-button.mat-primary {
+    background-color: #3f51b5 !important;
+  }
+  
+  .mat-mdc-raised-button.mat-primary,
+  .mat-mdc-raised-button.mat-primary span,
+  .mat-mdc-raised-button.mat-primary mat-icon {
+    color: #ffffff !important;
+  }
+
+}

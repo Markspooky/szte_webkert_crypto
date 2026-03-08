@@ -2,6 +2,8 @@
   padding: 20px;
   max-width: 1000px;
   margin: 0 auto;
+  box-sizing: border-box; /* Megakadályozza a kilógást */
+  width: 100%;
 }
 
 .balance-card {
@@ -14,7 +16,7 @@
 }
 
 .total-balance {
-  font-size: 3em;
+  font-size: clamp(2em, 5vw, 3em); /* Reszponzív betűméret, nem csúszik el */
   margin: 10px 0;
   color: white;
 }
@@ -23,6 +25,36 @@
   margin-top: 15px;
 }
 
+/* Ez a rész tartja kordában a táblázatot */
+.table-card {
+  padding: 0; /* A Material kártya belső margójának nullázása */
+  overflow: hidden;
+}
+
+.table-container {
+  overflow-x: auto; /* Mobilon görgethető lesz a táblázat vízszintesen */
+  width: 100%;
+}
+
 table {
   width: 100%;
+  min-width: 600px; /* Ne nyomódjon össze túlzottan a szöveg */
+}
+
+/* A zárt lakat állapota (bejelentkezés előtt) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  margin-top: 20px;
+
+  mat-icon {
+    font-size: 60px;
+    height: 60px;
+    width: 60px;
+    margin-bottom: 20px;
+  }
 }

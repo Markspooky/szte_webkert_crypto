@@ -1,43 +1,52 @@
 <div class="portfolio-container">
-  <h2>Saját Portfólió</h2>
+  
+  @if (user$ | async; as user) {
+    <h2>Saját Portfólió</h2>
 
-  <mat-card class="balance-card">
-    <mat-card-subtitle>Teljes egyenleg</mat-card-subtitle>
-    <mat-card-title class="total-balance">${{ totalBalance | number:'1.2-2' }}</mat-card-title>
-    <div class="balance-actions">
-      <button mat-raised-button color="primary"><mat-icon>add</mat-icon> Új tranzakció</button>
-    </div>
-  </mat-card>
+    <mat-card class="balance-card">
+      <mat-card-subtitle>Teljes egyenleg</mat-card-subtitle>
+      <mat-card-title class="total-balance">${{ totalBalance | number:'1.2-2' }}</mat-card-title>
+      <div class="balance-actions">
+        <button mat-raised-button color="primary"><mat-icon>add</mat-icon> Új tranzakció</button>
+      </div>
+    </mat-card>
 
-  <mat-card>
-    <table mat-table [dataSource]="dataSource">
-      
-      <ng-container matColumnDef="asset">
-        <th mat-header-cell *matHeaderCellDef> Eszköz </th>
-        <td mat-cell *matCellDef="let element">
-          <strong>{{element.name}}</strong> ({{element.symbol}})
-        </td>
-      </ng-container>
+    <mat-card class="table-card">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="asset">
+            <th mat-header-cell *matHeaderCellDef> Eszköz </th>
+            <td mat-cell *matCellDef="let element"><strong>{{element.name}}</strong> ({{element.symbol}})</td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Mennyiség </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount}} {{element.symbol}} </td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Érték (USD) </th>
+            <td mat-cell *matCellDef="let element"> ${{element.value | number:'1.2-2'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+            </td>
+          </ng-container>
 
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef> Mennyiség </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount}} {{element.symbol}} </td>
-      </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card>
+  } 
+  
+  @else {
+    <mat-card class="empty-state">
+      <mat-icon color="primary">lock</mat-icon>
+      <h2>Jelentkezz be az adatokhoz!</h2>
+      <p>A portfóliód megtekintéséhez kérlek lépj be a fiókodba.</p>
+      <button mat-raised-button color="primary" routerLink="/login">Irány a belépés</button>
+    </mat-card>
+  }
 
-      <ng-container matColumnDef="value">
-        <th mat-header-cell *matHeaderCellDef> Érték (USD) </th>
-        <td mat-cell *matCellDef="let element"> ${{element.value | number:'1.2-2'}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card>
 </div>
