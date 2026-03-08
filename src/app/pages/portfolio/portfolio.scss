@@ -1,0 +1,28 @@
+.portfolio-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.balance-card {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #3f51b5 0%, #283593 100%);
+  color: white;
+
+  mat-card-subtitle { color: #e0e0e0; }
+}
+
+.total-balance {
+  font-size: 3em;
+  margin: 10px 0;
+  color: white;
+}
+
+.balance-actions {
+  margin-top: 15px;
+}
+
+table {
+  width: 100%;
+}

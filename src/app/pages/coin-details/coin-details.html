@@ -1,1 +1,27 @@
-<p>coin-details works!</p>
+<div class="details-container">
+  <button mat-stroked-button color="primary" routerLink="/home" class="back-btn">
+    <mat-icon>arrow_back</mat-icon> Vissza a főoldalra
+  </button>
+
+  <mat-card class="coin-card">
+    <mat-card-header>
+      <div mat-card-avatar class="coin-avatar">
+        <mat-icon>currency_bitcoin</mat-icon>
+      </div>
+      <mat-card-title>{{ coinId | uppercase }}</mat-card-title>
+      <mat-card-subtitle>Részletes piaci adatok</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="price-section">
+        <h1>$65,432.10</h1>
+        <span class="positive"><mat-icon inline="true">trending_up</mat-icon> 2.5%</span>
+      </div>
+
+      <div class="mock-chart">
+        <mat-icon>show_chart</mat-icon>
+        <p>A grafikon helye (későbbi mérföldkő)</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

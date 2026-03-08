@@ -1,1 +1,41 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <div mat-card-avatar class="user-avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+      <mat-card-title>Hallgató Neve</mat-card-title>
+      <mat-card-subtitle>hallgato.neve&#64;stud.u-szeged.hu</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content class="settings-content">
+      <h3>Beállítások</h3>
+      
+      <div class="setting-item">
+        <span><mat-icon inline="true">dark_mode</mat-icon> Sötét téma</span>
+        <mat-slide-toggle color="primary"></mat-slide-toggle>
+      </div>
+
+      <div class="setting-item">
+        <span><mat-icon inline="true">notifications</mat-icon> Árfolyam riasztások</span>
+        <mat-slide-toggle color="primary" checked="true"></mat-slide-toggle>
+      </div>
+
+      <div class="setting-item">
+        <mat-form-field appearance="outline" class="currency-select">
+          <mat-label>Alapértelmezett valuta</mat-label>
+          <mat-select value="usd">
+            <mat-option value="usd">USD ($)</mat-option>
+            <mat-option value="eur">EUR (€)</mat-option>
+            <mat-option value="huf">HUF (Ft)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="warn"><mat-icon>logout</mat-icon> Kijelentkezés</button>
+      <button mat-raised-button color="primary"><mat-icon>save</mat-icon> Mentés</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
