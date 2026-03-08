@@ -1,49 +1,45 @@
-.home-container {
+.page-container {
   padding: 20px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  box-sizing: border-box; /* Megakadályozza a kilógást */
-  width: 100%;
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* Ez a rész tartja kordában a táblázatot */
-.table-card {
-  padding: 0;
+.market-card {
+  border-radius: 12px;
   overflow: hidden;
 }
 
-.table-container {
-  overflow-x: auto;
+.market-table {
   width: 100%;
+  margin-top: 15px;
+  background: transparent; /* Fontos a sötét mód miatt! */
 }
 
-table {
-  width: 100%;
-  min-width: 600px;
-}
-
-.symbol {
-  color: gray;
-  font-size: 0.9em;
-  margin-left: 5px;
-}
-
-.positive {
-  color: #4caf50;
-  font-weight: 500;
-}
-
-.negative {
-  color: #f44336;
-  font-weight: 500;
-}
-
-mat-icon {
+/* Kripto logók méretezése és igazítása */
+.crypto-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   vertical-align: middle;
-  margin-right: 4px;
+}
+
+/* Halványabb szimbólum a név mellett (pl. BTC) */
+.crypto-symbol {
+  color: #888;
+  font-size: 0.85em;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: rgba(136, 136, 136, 0.1);
+  border-radius: 4px;
+}
+
+/* Dinamikus színek a 24 órás változáshoz */
+.positive-change {
+  color: #00e676 !important; /* Erős zöld */
+  font-weight: 500;
+}
+
+.negative-change {
+  color: #ff1744 !important; /* Erős piros */
+  font-weight: 500;
 }

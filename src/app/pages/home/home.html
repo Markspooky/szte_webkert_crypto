@@ -1,40 +1,57 @@
-<div class="home-container">
-  <h2>Piaci áttekintés</h2>
-  
-  <mat-card class="table-card">
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource">
-        
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Név </th>
-          <td mat-cell *matCellDef="let coin">
-            <strong>{{coin.name}}</strong> <span class="symbol">({{coin.symbol}})</span>
+<div class="page-container">
+  <mat-card class="market-card">
+    <mat-card-header>
+      <mat-card-title>Piaci áttekintés (Top 10)</mat-card-title>
+      <mat-card-subtitle>Élő adatok a CoinGecko hálózatáról</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="topCoins" class="market-table">
+
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <img [src]="element.image" [alt]="element.name" class="crypto-logo">
           </td>
         </ng-container>
-  
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef> Árfolyam (USD) </th>
-          <td mat-cell *matCellDef="let coin"> ${{coin.price | number:'1.2-2'}} </td>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Kriptovaluta </th>
+          <td mat-cell *matCellDef="let element">
+            <div (click)="openDetailsDialog(element)" style="cursor: pointer; display: inline-block;">
+              <strong style="text-decoration: underline; text-underline-offset: 4px;">{{element.name}}</strong> 
+              <span class="crypto-symbol">{{element.symbol | uppercase}}</span>
+            </div>
+          </td>
         </ng-container>
-  
+
+        <ng-container matColumnDef="current_price">
+          <th mat-header-cell *matHeaderCellDef> Árfolyam </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.current_price | currency:'USD':'symbol':'1.2-6'}}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="change">
           <th mat-header-cell *matHeaderCellDef> 24ó Változás </th>
-          <td mat-cell *matCellDef="let coin" [ngClass]="{'positive': coin.change24h > 0, 'negative': coin.change24h < 0}">
-            <mat-icon inline="true">{{ coin.change24h > 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
-            {{coin.change24h}}%
+          <td mat-cell *matCellDef="let element" 
+              [ngClass]="{'positive-change': element.price_change_percentage_24h > 0, 'negative-change': element.price_change_percentage_24h < 0}">
+            {{element.price_change_percentage_24h > 0 ? '+' : ''}}{{element.price_change_percentage_24h | number:'1.2-2'}}%
           </td>
         </ng-container>
-  
-        <ng-container matColumnDef="action">
+
+        <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let coin">
-            <a mat-button color="primary" [routerLink]="['/coin', coin.id]">Részletek</a>
+          <td mat-cell *matCellDef="let element" style="text-align: right;">
+            <button mat-icon-button color="primary" (click)="openBuyDialog(element)" title="Gyorsvásárlás">
+              <mat-icon>add_shopping_cart</mat-icon>
+            </button>
           </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-    </div>
+    </mat-card-content>
   </mat-card>
 </div>
