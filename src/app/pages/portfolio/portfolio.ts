@@ -44,48 +44,63 @@ export class Portfolio implements OnInit {
     });
   }
 
-  // A MEGÚJULT ADATBETÖLTŐ FÜGGVÉNY
-  async refreshData() {
+ async refreshData() {
     try {
-      // 1. Letöltjük a saját darabszámaidat a Firebase-ből
+      // 1. Letöltjük a nyers adatokat a Firebase-ből
       const dbData = await this.portfolioService.getPortfolioOnce();
       
-      // 2. Letöltjük az ÉLŐ árakat a CoinGecko-ról
-      // A firstValueFrom megvárja, amíg az API válaszol, és utána megy csak tovább a kód
-      const liveCoins = await firstValueFrom(this.cryptoApi.getTopCoins());
+      // ÚJ: CSOPORTOSÍTÁS SZIMBÓLUM ALAPJÁN
+      const groupedAssets = new Map<string, any>();
+      
+      for (const item of dbData) {
+        const sym = item.symbol.toUpperCase();
+        
+        if (groupedAssets.has(sym)) {
+          // Ha már van ilyen érménk a listában, csak hozzáadjuk a mennyiséget
+          const existing = groupedAssets.get(sym);
+          existing.amount += item.amount;
+          existing.value += item.value; // Az eredeti vásárlási értéket is összeadjuk
+          
+          // Eltesszük az ID-ját is, hogy törlésnél megtaláljuk!
+          existing.firebaseIds.push(item.id);
+        } else {
+          // Ha még nincs, létrehozzuk, és kap egy új listát a Firebase ID-knak
+          groupedAssets.set(sym, { ...item, firebaseIds: [item.id] });
+        }
+      }
+      
+      // Visszaalakítjuk a Map-et egy sima tömbbé
+      const aggregatedDbData = Array.from(groupedAssets.values());
+
+      // 2. ÉLŐ ÁRAK LETÖLTÉSE (Védőhálóval)
+      let liveCoins: any[] = [];
+      try {
+        liveCoins = await firstValueFrom(this.cryptoApi.getTopCoins());
+      } catch (apiError) {
+        console.warn('Élő árak letöltése sikertelen. Maradnak a mentett árak.');
+      }
 
       let newTotal = 0;
 
-      // 3. Összepárosítjuk a kettőt!
-      const updatedData = dbData.map(item => {
-        // Megkeressük az adott érmét a letöltött élő adatok között (szimbólum alapján)
+      // 3. PÁROSÍTÁS AZ ÉLŐ ÁRAKKAL
+      const updatedData = aggregatedDbData.map(item => {
         const liveCoin = liveCoins.find(c => c.symbol.toLowerCase() === item.symbol.toLowerCase());
-        
-        // Ha megtaláltuk, használjuk az élő árat, ha nem (mert pl. nincs a top 10-ben), marad a régi érték
-        const currentPrice = liveCoin ? liveCoin.current_price : 0;
-        
-        // Kiszámoljuk az élő értéket: (Saját darabszám * Élő ár)
-        const liveValue = currentPrice > 0 ? (item.amount * currentPrice) : item.value;
+        const liveValue = liveCoin ? (item.amount * liveCoin.current_price) : item.value;
 
         newTotal += liveValue;
 
-        // Visszaadjuk a kibővített adatot a táblázatnak
         return {
           ...item,
-          livePrice: currentPrice, // Ezt is eltesszük, ha ki akarnád írni a HTML-ben
-          value: liveValue // Felülírjuk az értéket az élő értékkel!
+          value: liveValue 
         };
       });
-
-      console.log('Élő adatokkal frissített portfólió:', updatedData);
       
       this.dataSource = [...updatedData];
       this.totalBalance = newTotal;
-      
       this.cdr.detectChanges(); 
       
     } catch (error) {
-      console.error('Hiba a betöltéskor:', error);
+      console.error('Kritikus hiba a portfólió betöltésekor:', error);
     }
   }
 
@@ -106,11 +121,14 @@ export class Portfolio implements OnInit {
     });
   }
 
-  async deleteItem(id: string) {
-    if (window.confirm('Biztosan törlöd ezt a tételt?')) {
+  async deleteItem(element: any) {
+    if (window.confirm(`Biztosan törlöd az összes ${element.name} tételt a portfóliódból?`)) {
       try {
-        await this.portfolioService.deleteAsset(id);
-        this.refreshData();
+        // Végigmegyünk az összes belső Firebase ID-n, amit az összevonáskor eltettünk, és mindet töröljük
+        for (const firebaseId of element.firebaseIds) {
+          await this.portfolioService.deleteAsset(firebaseId);
+        }
+        this.refreshData(); // Újratöltjük az oldalt
       } catch (err) {
         console.error('Hiba a törlésnél:', err);
       }

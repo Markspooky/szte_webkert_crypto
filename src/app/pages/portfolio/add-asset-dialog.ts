@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 // ÚJ IMPORTOK: A lenyíló listához és az API-hoz
 import { MatSelectModule } from '@angular/material/select';
 import { CryptoApiService, CoinData } from '../../services/crypto-api.service';
+
 
 @Component({
   selector: 'app-add-asset-dialog',
@@ -75,6 +76,8 @@ export class AddAssetDialog implements OnInit {
   // Beinjektáljuk az API szolgáltatást, hogy elérjük az árakat
   private cryptoApi = inject(CryptoApiService);
 
+  private cdr = inject(ChangeDetectorRef);
+
   availableCoins: CoinData[] = [];
   selectedCoinPrice: number = 0;
 
@@ -100,6 +103,7 @@ export class AddAssetDialog implements OnInit {
           this.onCoinSelect(matchedCoin.id);
         }
       }
+      this.cdr.detectChanges();
     });
 
     // 2. Figyeljük a "Mennyiség" mezőt. Ha a felhasználó gépel, azonnal számolunk!
